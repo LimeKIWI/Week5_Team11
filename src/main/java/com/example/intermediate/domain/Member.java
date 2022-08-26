@@ -56,6 +56,10 @@ public class Member extends Timestamped {
   public void like_post(Long id) {
     postlist.add(id);
   }
+  public void dislike_post(Long id) {
+    postlist.remove(id);
+  }
+
 
   public boolean validatePassword(PasswordEncoder passwordEncoder, String password) {
     return passwordEncoder.matches(password, this.password);
