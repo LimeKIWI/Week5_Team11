@@ -53,7 +53,7 @@ public class Member extends Timestamped {
     return getClass().hashCode();
   }
 
-  public void update_post(Long id) {
+  public void like_post(Long id) {
     postlist.add(id);
   }
 

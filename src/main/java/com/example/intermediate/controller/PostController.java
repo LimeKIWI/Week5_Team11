@@ -18,8 +18,7 @@ public class PostController {
   private final PostService postService;
 
   @RequestMapping(value = "/api/auth/post", method = RequestMethod.POST)
-  public ResponseDto<?> createPost(@RequestBody PostRequestDto requestDto,
-      HttpServletRequest request) {
+  public ResponseDto<?> createPost(@RequestBody PostRequestDto requestDto, HttpServletRequest request) {
     return postService.createPost(requestDto, request);
   }
 

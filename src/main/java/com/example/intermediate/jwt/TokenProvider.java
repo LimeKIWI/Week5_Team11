@@ -67,6 +67,8 @@ public class TokenProvider {
         .signWith(key, SignatureAlgorithm.HS256)
         .compact();
 
+    System.out.println(accessToken.toString());
+
     String refreshToken = Jwts.builder()
         .setExpiration(new Date(now + REFRESH_TOKEN_EXPRIRE_TIME))
         .signWith(key, SignatureAlgorithm.HS256)
