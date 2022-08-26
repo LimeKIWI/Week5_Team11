@@ -1,5 +1,6 @@
 package com.example.intermediate.domain;
 
+import com.example.intermediate.controller.request.CommentRequestDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,4 +32,11 @@ public class NestedComment extends Timestamped{
 
     @Column(nullable = false)
     private int numberOfLikes;
+
+    public void update(CommentRequestDto commentRequestDto) {
+        this.content = commentRequestDto.getContent();
+    }
+    public boolean validateMember(Member member) {
+        return !this.member.equals(member);
+    }
 }
