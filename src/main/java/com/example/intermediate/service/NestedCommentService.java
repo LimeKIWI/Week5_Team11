@@ -22,7 +22,7 @@ public class NestedCommentService {
     private final TokenProvider tokenProvider;
     private final CommentService commentService;
     @Transactional
-    public ResponseDto<?> createComment(CommentRequestDto requestDto, HttpServletRequest request) {
+    public ResponseDto<?> createNestedComment(CommentRequestDto requestDto, HttpServletRequest request) {
         if (null == request.getHeader("Refresh-Token")) {
             return ResponseDto.fail("MEMBER_NOT_FOUND",
                     "로그인이 필요합니다.");
