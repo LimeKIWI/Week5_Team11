@@ -1,12 +1,12 @@
 package com.example.intermediate.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,6 +19,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+
 public class Member extends Timestamped {
 
   @Id
@@ -32,6 +33,9 @@ public class Member extends Timestamped {
   @JsonIgnore
   private String password;
 
+
+  @ElementCollection
+  private List<Long> postlist = new ArrayList<>();
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -47,6 +51,10 @@ public class Member extends Timestamped {
   @Override
   public int hashCode() {
     return getClass().hashCode();
+  }
+
+  public void update_post(Long id) {
+    postlist.add(id);
   }
 
   public boolean validatePassword(PasswordEncoder passwordEncoder, String password) {
