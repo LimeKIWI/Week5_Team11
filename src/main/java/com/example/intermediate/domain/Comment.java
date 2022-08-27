@@ -41,6 +41,13 @@ public class Comment extends Timestamped {
     this.content = commentRequestDto.getContent();
   }
 
+  public  void like(){
+    this.cnt +=1;
+  }
+  public  void dislike(){
+    this.cnt -=1;
+  }
+
   public boolean validateMember(Member member) {
     return !this.member.equals(member);
   }
