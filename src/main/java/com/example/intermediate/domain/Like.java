@@ -20,19 +20,9 @@ public class Like extends Timestamped {
     private Long id;
     @Column
     private Role_Enum role_enum;
-    //필요한거 참조 아이디 그리고 작성자의 아이디
     @Column
-    private Long Reference_Id;
+    private Long Parent_Id;//참조 ID
     @Column
     private Long Member_Id;
-
-    @JoinColumn(name = "post_id", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Post post;
-
-    @JoinColumn(name = "comment_id", nullable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Comment comment;
-
 
 }
