@@ -49,7 +49,7 @@ public class PostService {
         Post post = Post.builder()
                 .title(requestDto.getTitle())
                 .content(requestDto.getContent())
-                .cnt(0)
+                .countOfLikes(0)
                 .member(member)
                 .build();
         postRepository.save(post);

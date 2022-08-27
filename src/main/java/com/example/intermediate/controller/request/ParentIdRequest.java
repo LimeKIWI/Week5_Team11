@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 
+// 좋아요 한 객체 찾기 아이디
 public class ParentIdRequest {
 
     private Long parentId;//pid

@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 
 @Builder
 @Getter
@@ -34,7 +33,7 @@ public class Comment extends Timestamped {
   private String content;
 
   @Column(nullable = false)
-  private int cnt;
+  private int countOfLikes;
 
 
   public void update(CommentRequestDto commentRequestDto) {
@@ -42,10 +41,10 @@ public class Comment extends Timestamped {
   }
 
   public  void like(){
-    this.cnt +=1;
+    this.countOfLikes +=1;
   }
   public  void dislike(){
-    this.cnt -=1;
+    this.countOfLikes -=1;
   }
 
   public boolean validateMember(Member member) {
