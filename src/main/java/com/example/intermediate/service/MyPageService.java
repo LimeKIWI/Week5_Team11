@@ -22,6 +22,7 @@ public class MyPageService {
     private final TokenProvider tokenProvider;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
+    @Transactional (readOnly = true)
     public ResponseDto<?> getMypage(HttpServletRequest request) {
         // 토큰 확인
         if (null == request.getHeader("Refresh-Token")) {
