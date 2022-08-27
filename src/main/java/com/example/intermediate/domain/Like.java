@@ -30,5 +30,9 @@ public class Like extends Timestamped {
     @ManyToOne(fetch = FetchType.LAZY)
     private Post post;
 
+    @JoinColumn(name = "comment_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Comment comment;
+
 
 }
