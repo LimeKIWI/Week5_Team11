@@ -1,12 +1,12 @@
 package com.example.intermediate.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,11 +14,12 @@ import lombok.NoArgsConstructor;
 import org.hibernate.Hibernate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Builder
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Builder
 public class Member extends Timestamped {
 
   @Id
@@ -27,6 +28,9 @@ public class Member extends Timestamped {
 
   @Column(nullable = false)
   private String nickname;
+
+  @Column(nullable = false)
+  private int cnt;
 
   @Column(nullable = false)
   @JsonIgnore
@@ -48,6 +52,7 @@ public class Member extends Timestamped {
   public int hashCode() {
     return getClass().hashCode();
   }
+
 
   public boolean validatePassword(PasswordEncoder passwordEncoder, String password) {
     return passwordEncoder.matches(password, this.password);
