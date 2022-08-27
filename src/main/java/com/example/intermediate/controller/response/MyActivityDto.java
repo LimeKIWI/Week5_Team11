@@ -13,6 +13,10 @@ import java.util.List;
 @AllArgsConstructor
 public class MyActivityDto {
     private String nickName;
+    private int countOfLikeByPostAll;
     private List<PostResponseDto> postResponseDtoList;
+    private int countOfLikeByCommentAll;
     private List<CommentResponseDto> commentResponseDtoList;
+    private int countOfLikeByNestCommentAll;
+    private List<CommentResponseDto> nestedCommentResponseDtoList;
 }
