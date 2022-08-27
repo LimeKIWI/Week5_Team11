@@ -9,5 +9,6 @@ import java.util.Optional;
 
 public interface LikeRepository extends JpaRepository<Like, Long> {
     Optional<Like> findByIdAndPidAndRole(Long id, Long pid,Role_Enum role_enum);
+    List<Like> findByMember (Member member);
 
 }
