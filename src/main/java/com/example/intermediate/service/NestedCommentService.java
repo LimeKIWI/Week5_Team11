@@ -41,7 +41,7 @@ public class NestedCommentService {
             return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
         }
 
-        Comment comment = commentService.isPresentComment(requestDto.getPostId());
+        Comment comment = commentService.isPresentComment(requestDto.getParantId());
         if (null == comment) {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
         }
@@ -105,7 +105,7 @@ public class NestedCommentService {
             return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
         }
 
-        Comment comment = commentService.isPresentComment(requestDto.getPostId());
+        Comment comment = commentService.isPresentComment(requestDto.getParantId());
         if(null == comment){
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
         }
