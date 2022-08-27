@@ -1,12 +1,13 @@
 package com.example.intermediate.controller;
 
 
-import com.example.intermediate.controller.request.CommentRequestDto;
-import com.example.intermediate.controller.request.PostIdRequest;
-import com.example.intermediate.controller.request.PostRequestDto;
+import com.example.intermediate.controller.request.LikeIdRequest;
+import com.example.intermediate.controller.request.ParentIdRequest;
+
 import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.service.LikeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,17 +15,27 @@ import javax.servlet.http.HttpServletRequest;
 
 
 @RequiredArgsConstructor
-@Controller
+@Component
+@RestController
 public class LikeController {
-    final private LikeService likeService;
-    @RequestMapping(value = "api/auth/post/like", method = RequestMethod.POST)
-    public ResponseDto<?> like_post(@RequestBody PostIdRequest postIdRequest, HttpServletRequest request) {
-        System.out.println(postIdRequest.getPostId());
-        return likeService.post_like(postIdRequest,request);
+    private final LikeService likeService;
+    @RequestMapping(value = "api/auth/post/like", method = RequestMethod.POST)//현재 가져가서 ilike!
+    public ResponseDto<?>  like_post(@RequestBody LikeIdRequest likeIdRequest, HttpServletRequest request) {
+        return likeService.post_like(likeIdRequest, request);
     }
 
     @RequestMapping(value = "api/auth/post/dislike/{id}", method = RequestMethod.POST)
-    public ResponseDto<?> dislike_post(@PathVariable Long id, HttpServletRequest request) {
-        return likeService.post_dislike(id,request);
+    public ResponseDto<?> dislike_post(@PathVariable Long id, @RequestBody ParentIdRequest parentRequest , HttpServletRequest request) {
+        return likeService.post_dislike(id,parentRequest,request);
+    }
+
+    @RequestMapping(value = "api/auth/comment/like", method = RequestMethod.POST)//현재 가져가서 ilike!
+    public ResponseDto<?>  like_comment(@RequestBody LikeIdRequest likeIdRequest, HttpServletRequest request) {
+        return likeService.post_like(likeIdRequest, request);
+    }
+
+    @RequestMapping(value = "api/auth/post/comment/{id}", method = RequestMethod.POST)
+    public ResponseDto<?> dislike_comment(@PathVariable Long id, @RequestBody ParentIdRequest parentRequest , HttpServletRequest request) {
+        return likeService.post_dislike(id,parentRequest,request);
     }
 }
