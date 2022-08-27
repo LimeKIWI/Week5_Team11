@@ -18,16 +18,17 @@ public class Like extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column
     private Role_Enum role_enum;
-
-    //필요한거 참조 아이디 그리고 작성자의 아이니
+    //필요한거 참조 아이디 그리고 작성자의 아이디
     @Column
     private Long Reference_Id;
-
     @Column
     private Long Member_Id;
+
+    @JoinColumn(name = "post_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Post post;
 
 
 }
