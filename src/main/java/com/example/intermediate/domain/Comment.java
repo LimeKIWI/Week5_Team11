@@ -22,9 +22,6 @@ public class Comment extends Timestamped {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Like> likes;
   @JoinColumn(name = "member_id", nullable = false)
   @ManyToOne(fetch = FetchType.LAZY)
   private Member member;
@@ -35,6 +32,10 @@ public class Comment extends Timestamped {
 
   @Column(nullable = false)
   private String content;
+
+  @Column(nullable = false)
+  private int cnt;
+
 
   public void update(CommentRequestDto commentRequestDto) {
     this.content = commentRequestDto.getContent();
