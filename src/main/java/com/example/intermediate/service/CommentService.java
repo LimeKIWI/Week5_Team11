@@ -42,7 +42,7 @@ public class CommentService {
       return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
     }
 
-    Post post = postService.isPresentPost(requestDto.getParantId());
+    Post post = postService.isPresentPost(requestDto.getParentId());
     if (null == post) {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
     }
@@ -50,6 +50,7 @@ public class CommentService {
     Comment comment = Comment.builder()
         .member(member)
         .post(post)
+        .countOfLikes(0)
         .content(requestDto.getContent())
         .build();
     commentRepository.save(comment);
@@ -105,7 +106,7 @@ public class CommentService {
       return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
     }
 
-    Post post = postService.isPresentPost(requestDto.getParantId());
+    Post post = postService.isPresentPost(requestDto.getParentId());
     if (null == post) {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
     }

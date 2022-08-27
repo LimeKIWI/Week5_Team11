@@ -31,29 +31,27 @@ public class Post extends Timestamped {
   @Column(nullable = false)
   private String title;
 
-
-  @Column(nullable = false)
-  private int cnt;
-  @Column(nullable = false)
-  private String content;
-
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Comment> comments;
-
   @JoinColumn(name = "member_id", nullable = false)
   @ManyToOne(fetch = FetchType.LAZY)
   private Member member;
 
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Comment> comments;
+  @Column(nullable = false)
+  private String content;
+
+  @Column(nullable = false)
+  private int countOfLikes;
 
   public void update(PostRequestDto postRequestDto) {
     this.title = postRequestDto.getTitle();
     this.content = postRequestDto.getContent();
   }
   public  void like(){
-    this.cnt +=1;
+    this.countOfLikes +=1;
   }
   public  void dislike(){
-    this.cnt -=1;
+    this.countOfLikes -=1;
   }
 
   public boolean validateMember(Member member) {

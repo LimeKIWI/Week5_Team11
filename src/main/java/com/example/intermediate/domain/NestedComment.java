@@ -31,7 +31,7 @@ public class NestedComment extends Timestamped{
     private String content;
 
     @Column(nullable = false)
-    private int numberOfLikes;
+    private int countOfLikes;
 
     public void update(CommentRequestDto commentRequestDto) {
         this.content = commentRequestDto.getContent();
