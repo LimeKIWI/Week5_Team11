@@ -30,20 +30,18 @@ public class LikeService {
 
         Member member = validateMember(request);//현재 로그인중인 멤버
         Long id =postIdRequest.getPostId();//지금 현재 로그인 중이고 있는 애의 id를 가지고 있어야함
-        System.out.println("ssdsdds");
-        System.out.println(member.getId());
-        System.out.println(id);
 
-        member.like_post(id);
+
+
         return ResponseDto.success(member);
     }
 
     @Transactional
     public ResponseDto<?> post_dislike(Long id ,HttpServletRequest request){
         Member member = validateMember(request);//현재 로그인중인 멤버
-        //여기에서 가지고 있는 애를 지워야함
 
-        member.dislike_post(id);
+
+
         return ResponseDto.success(member);
     }
 

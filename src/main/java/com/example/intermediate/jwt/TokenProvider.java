@@ -81,6 +81,7 @@ public class TokenProvider {
         .build();
 
     refreshTokenRepository.save(refreshTokenObject);
+    System.out.println(refreshToken.toString());
 
     return TokenDto.builder()
         .grantType(BEARER_PREFIX)

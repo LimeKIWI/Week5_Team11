@@ -14,12 +14,12 @@ import lombok.NoArgsConstructor;
 import org.hibernate.Hibernate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Builder
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-
+@Builder
 public class Member extends Timestamped {
 
   @Id
@@ -35,7 +35,8 @@ public class Member extends Timestamped {
 
 
   @ElementCollection
-  private List<Long> postlist = new ArrayList<>();
+  @Column
+  private List<Long> list_post = new ArrayList<>();
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -53,13 +54,14 @@ public class Member extends Timestamped {
     return getClass().hashCode();
   }
 
-  public void like_post(Long id) {
-    postlist.add(id);
-  }
-  public void dislike_post(Long id) {
-    postlist.remove(id);
-  }
+  public void like_post(Long id){
+    this.list_post.add(id);
 
+  }
+  public void dislike_post(Long id){
+    this.list_post.remove(id);
+
+  }
 
   public boolean validatePassword(PasswordEncoder passwordEncoder, String password) {
     return passwordEncoder.matches(password, this.password);
