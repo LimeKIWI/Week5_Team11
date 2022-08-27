@@ -33,10 +33,6 @@ public class Comment extends Timestamped {
   @ManyToOne(fetch = FetchType.LAZY)
   private Post post;
 
-
-  @Column
-  private int cnt=0;
-
   @Column(nullable = false)
   private String content;
 
