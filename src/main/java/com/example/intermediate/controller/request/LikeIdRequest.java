@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostIdRequest {
+public class LikeIdRequest {
 
-    private Long postId;
+    private Long likeId;
 }
