@@ -1,27 +1,33 @@
 package com.example.intermediate.domain;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-public class Like{
+import javax.persistence.*;
+import java.sql.Time;
+
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity(name = "Like_table")
+@Builder
+public class Like extends Timestamped {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column
     private Role_Enum role_enum;
+
     //필요한거 참조 아이디 그리고 작성자의 아이니
-    @Column(nullable = false)
+    @Column
     private Long Reference_Id;
 
-    @Column(nullable = false)
+    @Column
     private Long Member_Id;
-
-
-
 
 
 }

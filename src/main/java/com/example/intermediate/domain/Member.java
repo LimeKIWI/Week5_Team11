@@ -33,10 +33,6 @@ public class Member extends Timestamped {
   @JsonIgnore
   private String password;
 
-
-  @ElementCollection
-  @Column
-  private List<Long> list_post = new ArrayList<>();
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -54,14 +50,6 @@ public class Member extends Timestamped {
     return getClass().hashCode();
   }
 
-  public void like_post(Long id){
-    this.list_post.add(id);
-
-  }
-  public void dislike_post(Long id){
-    this.list_post.remove(id);
-
-  }
 
   public boolean validatePassword(PasswordEncoder passwordEncoder, String password) {
     return passwordEncoder.matches(password, this.password);

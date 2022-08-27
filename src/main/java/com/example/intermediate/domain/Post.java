@@ -41,8 +41,6 @@ public class Post extends Timestamped {
   @ManyToOne(fetch = FetchType.LAZY)
   private Member member;
 
-  @Column
-  private int cnt=0;
 
   public void update(PostRequestDto postRequestDto) {
     this.title = postRequestDto.getTitle();
