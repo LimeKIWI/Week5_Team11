@@ -1,6 +1,8 @@
 package com.example.intermediate.controller.response;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,6 +16,8 @@ public class CommentResponseDto {
   private Long id;
   private String author;
   private String content;
+  private int countOfLikes;
+  private List<CommentResponseDto> nestedCommentResponseDtoList;
   private LocalDateTime createdAt;
   private LocalDateTime modifiedAt;
 }

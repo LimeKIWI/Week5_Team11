@@ -4,6 +4,7 @@ import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.controller.response.CommentResponseDto;
 import com.example.intermediate.domain.Comment;
 import com.example.intermediate.domain.Member;
+import com.example.intermediate.domain.NestedComment;
 import com.example.intermediate.domain.Post;
 import com.example.intermediate.controller.request.CommentRequestDto;
 import com.example.intermediate.jwt.TokenProvider;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
+
+import com.example.intermediate.repository.NestedCommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentService {
 
   private final CommentRepository commentRepository;
-
+  private final NestedCommentRepository nestedCommentRepository;
   private final TokenProvider tokenProvider;
   private final PostService postService;
 
@@ -42,7 +45,7 @@ public class CommentService {
       return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
     }
 
-    Post post = postService.isPresentPost(requestDto.getParantId());
+    Post post = postService.isPresentPost(requestDto.getParentId());
     if (null == post) {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
     }
@@ -50,6 +53,7 @@ public class CommentService {
     Comment comment = Comment.builder()
         .member(member)
         .post(post)
+        .countOfLikes(0)
         .content(requestDto.getContent())
         .build();
     commentRepository.save(comment);
@@ -58,6 +62,7 @@ public class CommentService {
             .id(comment.getId())
             .author(comment.getMember().getNickname())
             .content(comment.getContent())
+            .countOfLikes(comment.getCountOfLikes())
             .createdAt(comment.getCreatedAt())
             .modifiedAt(comment.getModifiedAt())
             .build()
@@ -75,11 +80,27 @@ public class CommentService {
     List<CommentResponseDto> commentResponseDtoList = new ArrayList<>();
 
     for (Comment comment : commentList) {
+      List<NestedComment> nestedCommentList = nestedCommentRepository.findAllByComment(comment);
+      List<CommentResponseDto> nestCmtResponseDtoList = new ArrayList<>();
+      for(NestedComment nestCmt : nestedCommentList) {
+        nestCmtResponseDtoList.add(
+                CommentResponseDto.builder()
+                        .id(nestCmt.getId())
+                        .author(nestCmt.getMember().getNickname())
+                        .content(nestCmt.getContent())
+                        .countOfLikes(nestCmt.getCountOfLikes())
+                        .createdAt(nestCmt.getCreatedAt())
+                        .modifiedAt(nestCmt.getModifiedAt())
+                        .build()
+        );
+      }
       commentResponseDtoList.add(
           CommentResponseDto.builder()
               .id(comment.getId())
               .author(comment.getMember().getNickname())
               .content(comment.getContent())
+              .countOfLikes(comment.getCountOfLikes())
+              .nestedCommentResponseDtoList(nestCmtResponseDtoList)
               .createdAt(comment.getCreatedAt())
               .modifiedAt(comment.getModifiedAt())
               .build()
@@ -105,7 +126,7 @@ public class CommentService {
       return ResponseDto.fail("INVALID_TOKEN", "Token이 유효하지 않습니다.");
     }
 
-    Post post = postService.isPresentPost(requestDto.getParantId());
+    Post post = postService.isPresentPost(requestDto.getParentId());
     if (null == post) {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
     }
@@ -125,6 +146,7 @@ public class CommentService {
             .id(comment.getId())
             .author(comment.getMember().getNickname())
             .content(comment.getContent())
+            .countOfLikes(comment.getCountOfLikes())
             .createdAt(comment.getCreatedAt())
             .modifiedAt(comment.getModifiedAt())
             .build()

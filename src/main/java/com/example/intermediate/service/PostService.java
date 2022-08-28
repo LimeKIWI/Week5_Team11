@@ -49,7 +49,7 @@ public class PostService {
         Post post = Post.builder()
                 .title(requestDto.getTitle())
                 .content(requestDto.getContent())
-                .cnt(0)
+                .countOfLikes(0)
                 .member(member)
                 .build();
         postRepository.save(post);
@@ -59,6 +59,7 @@ public class PostService {
                         .title(post.getTitle())
                         .content(post.getContent())
                         .author(post.getMember().getNickname())
+                        .countOfLikes(post.getCountOfLikes())
                         .createdAt(post.getCreatedAt())
                         .modifiedAt(post.getModifiedAt())
                         .build()
@@ -81,6 +82,7 @@ public class PostService {
                             .id(comment.getId())
                             .author(comment.getMember().getNickname())
                             .content(comment.getContent())
+                            .countOfLikes((comment.getCountOfLikes()))
                             .createdAt(comment.getCreatedAt())
                             .modifiedAt(comment.getModifiedAt())
                             .build()
@@ -92,6 +94,7 @@ public class PostService {
                         .id(post.getId())
                         .title(post.getTitle())
                         .content(post.getContent())
+                        .countOfLikes(post.getCountOfLikes())
                         .commentResponseDtoList(commentResponseDtoList)
                         .author(post.getMember().getNickname())
                         .createdAt(post.getCreatedAt())

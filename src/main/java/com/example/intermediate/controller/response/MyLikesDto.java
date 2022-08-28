@@ -11,8 +11,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MyActivityDto {
-    private String nickName;
+public class MyLikesDto {
     private int countOfLikeByPostAll;
     private List<PostResponseDto> postResponseDtoList;
     private int countOfLikeByCommentAll;
