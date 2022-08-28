@@ -31,11 +31,11 @@ public class LikeController {
 
     @RequestMapping(value = "api/auth/comment/like", method = RequestMethod.POST)//현재 가져가서 ilike!
     public ResponseDto<?>  like_comment(@RequestBody LikeIdRequest likeIdRequest, HttpServletRequest request) {
-        return likeService.post_like(likeIdRequest, request);
+        return likeService.comment_like(likeIdRequest, request);
     }
 
     @RequestMapping(value = "api/auth/post/comment/{id}", method = RequestMethod.POST)
     public ResponseDto<?> dislike_comment(@PathVariable Long id, @RequestBody ParentIdRequest parentRequest , HttpServletRequest request) {
-        return likeService.post_dislike(id,parentRequest,request);
+        return likeService.comment_dislike(id,parentRequest,request);
     }
 }
