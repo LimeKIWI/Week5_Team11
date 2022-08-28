@@ -27,13 +27,25 @@ public class LikeController {
         return likeService.post_dislike(id,parentRequest,request);
     }
 
-    @RequestMapping(value = "/api/auth/comment/like", method = RequestMethod.POST)//현재 가져가서 ilike!
-    public ResponseDto<?>  like_comment(@RequestBody ParentIdRequest parentRequest, HttpServletRequest request) {
-        return likeService.like_comment(parentRequest, request);
+    @RequestMapping(value = "api/auth/comment/like", method = RequestMethod.POST)//현재 가져가서 ilike!
+    public ResponseDto<?>  like_comment(@RequestBody LikeIdRequest likeIdRequest, HttpServletRequest request) {
+        return likeService.comment_like(likeIdRequest, request);
     }
 
     @RequestMapping(value = "/api/auth/comment/dislike/{id}", method = RequestMethod.PATCH)
     public ResponseDto<?> dislike_comment(@PathVariable Long id, @RequestBody ParentIdRequest parentRequest , HttpServletRequest request) {
         return likeService.comment_dislike(id,parentRequest,request);
     }
+    
+    @RequestMapping(value = "api/auth/nestedcomment/like", method = RequestMethod.POST)//현재 가져가서 ilike!
+    public ResponseDto<?>  like_nestedcomment(@RequestBody LikeIdRequest likeIdRequest, HttpServletRequest request) {
+        return likeService.nestedcomment_like(likeIdRequest, request);
+
+    }
+
+    @RequestMapping(value = "api/auth/post/nestedcomment/{id}", method = RequestMethod.POST)
+    public ResponseDto<?> dislike_nestedcomment(@PathVariable Long id, @RequestBody ParentIdRequest parentRequest , HttpServletRequest request) {
+        return likeService.nestedcomment_dislike(id,parentRequest,request);
+    }
+
 }

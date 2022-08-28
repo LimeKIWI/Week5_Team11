@@ -26,7 +26,8 @@ public class NestedComment extends Timestamped{
     @JoinColumn(name = "comment_id", nullable = false)
     @ManyToOne(fetch = FetchType.LAZY)
     private Comment comment;
-
+    @Column(nullable = false)
+    private int cnt;
     @Column(nullable = false)
     private String content;
 
@@ -38,5 +39,12 @@ public class NestedComment extends Timestamped{
     }
     public boolean validateMember(Member member) {
         return !this.member.equals(member);
+    }
+
+    public  void like(){
+        this.cnt +=1;
+    }
+    public  void dislike(){
+        this.cnt -=1;
     }
 }
