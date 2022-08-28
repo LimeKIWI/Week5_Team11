@@ -6,10 +6,7 @@ import com.example.intermediate.controller.request.ParentIdRequest;
 import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.domain.*;
 import com.example.intermediate.jwt.TokenProvider;
-import com.example.intermediate.repository.CommentRepository;
-import com.example.intermediate.repository.LikeRepository;
-import com.example.intermediate.repository.MemberRepository;
-import com.example.intermediate.repository.PostRepository;
+import com.example.intermediate.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -29,6 +26,7 @@ public class LikeService {
     // private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final TokenProvider tokenProvider;
     private final CommentRepository commentRepository;
+    private NestedCommentRepository nestedCommentRepository;
 
     @Transactional
     public ResponseDto<?> post_like(LikeIdRequest likeIdRequest, HttpServletRequest request){
@@ -77,7 +75,7 @@ public class LikeService {
     }
 
     @Transactional
-    public ResponseDto<?> Comment_like(LikeIdRequest likeIdRequest, HttpServletRequest request){
+    public ResponseDto<?> comment_like(LikeIdRequest likeIdRequest, HttpServletRequest request){
         Member member = validateMember(request);//현재 로그인중인 멤버
         Optional<Comment> temp = commentRepository.findById(likeIdRequest.getLikeId());
         if (!temp.isPresent()) {
@@ -117,6 +115,50 @@ public class LikeService {
         }
         comment.dislike();
 
+        likeRepository.delete(like);
+        return ResponseDto.success("좋아요 취소!");
+    }
+    @Transactional
+    public ResponseDto<?> nestedcomment_like(LikeIdRequest likeIdRequest, HttpServletRequest request){
+        Member member = validateMember(request);//현재 로그인중인 멤버
+        Optional<NestedComment> temp = nestedCommentRepository.findById(likeIdRequest.getLikeId());
+        if (!temp.isPresent()) {
+            return ResponseDto.fail("fail-like", "해당 대댓글이 존재하지 않습니다.");
+        }
+        NestedComment nestedComment = temp.get();
+
+        nestedComment.like();
+        Like like = Like.builder()
+                .member(member)
+                .pid(nestedComment.getId())//
+                .role(Role_Enum.COMMENT)
+                .build();
+        nestedComment.like();
+        likeRepository.save(like);
+        return ResponseDto.success("좋아요!");
+    }
+
+    @Transactional
+    public ResponseDto<?> nestedcomment_dislike(Long id , ParentIdRequest parentRequest, HttpServletRequest request){
+        Member member = validateMember(request);//현재 로그인중인 회원의 아이디
+        Optional<Like> temp = likeRepository.findByIdAndPidAndRole(id,parentRequest.getParentId(),Role_Enum.COMMENT);
+        if (!temp.isPresent()) {
+            return ResponseDto.fail("fail-dislike", "해당 좋아요가 존재하지 않습니다.");
+        }
+        Optional<NestedComment> temp2 = nestedCommentRepository.findById(parentRequest.getParentId());
+        if (!temp2.isPresent()) {
+            return ResponseDto.fail("fail-dislike", "해당 대댓글이 존재하지 않습니다.");
+        }
+        Like like = temp.get();
+        if(like.getMember().getId()!=member.getId()){
+            return ResponseDto.fail("fail-dislike", "해당 좋아요의 작성자가 아닙니다.");
+        }
+        //해당 로그인한 유저가 해당 댓글의 작성자가 아닐 경우에는 예외처리를 해야함
+        NestedComment nestedComment= temp2.get();
+        if(like.getPid()!=nestedComment.getId()){
+            return ResponseDto.fail("fail-dislike", "해당 댓글의 좋아요가 아닙니다.");
+        }
+        nestedComment.dislike();
         likeRepository.delete(like);
         return ResponseDto.success("좋아요 취소!");
     }
