@@ -39,13 +39,13 @@ public class LikeController {
         return likeService.comment_dislike(id,parentRequest,request);
     }
     @RequestMapping(value = "api/auth/nestedcomment/like", method = RequestMethod.POST)//현재 가져가서 ilike!
-    public ResponseDto<?>  like_newstedcomment(@RequestBody LikeIdRequest likeIdRequest, HttpServletRequest request) {
-        return likeService.comment_like(likeIdRequest, request);
+    public ResponseDto<?>  like_nestedcomment(@RequestBody LikeIdRequest likeIdRequest, HttpServletRequest request) {
+        return likeService.nestedcomment_like(likeIdRequest, request);
     }
 
     @RequestMapping(value = "api/auth/post/nestedcomment/{id}", method = RequestMethod.POST)
     public ResponseDto<?> dislike_nestedcomment(@PathVariable Long id, @RequestBody ParentIdRequest parentRequest , HttpServletRequest request) {
-        return likeService.comment_dislike(id,parentRequest,request);
+        return likeService.nestedcomment_dislike(id,parentRequest,request);
     }
 
 }
