@@ -50,6 +50,7 @@ public class CommentService {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
     }
 
+
     Comment comment = Comment.builder()
         .member(member)
         .post(post)
