@@ -5,11 +5,8 @@ import com.example.intermediate.controller.response.ResponseDto;
 import com.example.intermediate.service.PostService;
 import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RequiredArgsConstructor
 @RestController
@@ -17,9 +14,9 @@ public class PostController {
 
   private final PostService postService;
 
-  @RequestMapping(value = "/api/auth/post", method = RequestMethod.POST)
-  public ResponseDto<?> createPost(@RequestBody PostRequestDto requestDto, HttpServletRequest request) {
-    return postService.createPost(requestDto, request);
+  @RequestMapping(value = "/api/auth/post", method = RequestMethod.POST, consumes = {"multipart/form-data"})
+  public ResponseDto<?> createPost(@RequestPart("value") PostRequestDto requestDto, @RequestPart("file") MultipartFile file,  HttpServletRequest request) {
+    return postService.createPost(requestDto, file, request);
   }
 
   @RequestMapping(value = "/api/post/{id}", method = RequestMethod.GET)
