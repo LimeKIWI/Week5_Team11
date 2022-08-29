@@ -19,10 +19,9 @@ public class Scheduler {
     private final PostService postService;
 
 
-    @Scheduled(cron = " 30 * * * * *") //매일 새벽 1시에 업데이트
+    @Scheduled(cron = " 0 1 * * * *") //매일 새벽 1시에 업데이트
     public void updatePostByComment() throws InterruptedException {
         log.info("게시물 업데이트 실행");
-
         List<Post> postList = postRepository.findAll();
         if (postList.size() != 0) { //게시물 존재 시
             for (long id = postList.get(0).getId(); id <= postList.get(postList.size() - 1).getId(); id++) {
