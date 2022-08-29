@@ -152,7 +152,7 @@ public class LikeService {
         //해당 로그인한 유저가 해당 댓글의 작성자가 아닐 경우에는 예외처리를 해야함
         NestedComment nestedComment= temp2.get();
         if(like.getPid()!=nestedComment.getId()){
-            return ResponseDto.fail("fail-dislike", "해당 댓글의 좋아요가 아닙니다.");
+            return ResponseDto.fail("fail-dislike", "해당 대댓글의 좋아요가 아닙니다.");
         }
         nestedComment.dislike();
         likeRepository.delete(like);
