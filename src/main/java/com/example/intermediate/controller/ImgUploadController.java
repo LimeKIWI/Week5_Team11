@@ -8,16 +8,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+
 
 @RequiredArgsConstructor
 @RestController
 public class ImgUploadController {
     private final ImgUploadService imguploadService;
 
-    @PostMapping("/upload")
-    public ResponseDto<?> uploadFile(@RequestParam("images") MultipartFile multipartFile)
+    @PostMapping("/auth/upload")
+    public ResponseDto<?> uploadFile(@RequestParam("images") MultipartFile multipartFile, HttpServletRequest request)
             throws IllegalAccessException {
-        return imguploadService.upload(multipartFile);
+        return imguploadService.upload(multipartFile,request);
 
     }
 }
