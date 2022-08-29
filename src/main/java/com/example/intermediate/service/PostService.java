@@ -1,5 +1,6 @@
 package com.example.intermediate.service;
 
+import com.amazonaws.services.s3.AmazonS3Client;
 import com.example.intermediate.controller.response.CommentResponseDto;
 import com.example.intermediate.controller.response.PostResponseDto;
 import com.example.intermediate.domain.Comment;
@@ -17,13 +18,16 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class PostService {
-
+    @Value("${cloud.aws.s3.bucket}")
+    private  String bucket;
+    private final AmazonS3Client s3Client;
     private final PostRepository postRepository;
     private final CommentRepository commentRepository;
 
@@ -50,6 +54,8 @@ public class PostService {
                 .title(requestDto.getTitle())
                 .content(requestDto.getContent())
                 .countOfLikes(0)
+                .url("x")
+                .FileName("x")
                 .member(member)
                 .build();
         postRepository.save(post);
@@ -60,6 +66,8 @@ public class PostService {
                         .content(post.getContent())
                         .author(post.getMember().getNickname())
                         .countOfLikes(post.getCountOfLikes())
+                        .url(post.getUrl())
+                        .FileName(post.getFileName())
                         .createdAt(post.getCreatedAt())
                         .modifiedAt(post.getModifiedAt())
                         .build()
@@ -69,6 +77,7 @@ public class PostService {
     @Transactional(readOnly = true)
     public ResponseDto<?> getPost(Long id) {
         Post post = isPresentPost(id);
+
         if (null == post) {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
         }
@@ -97,6 +106,8 @@ public class PostService {
                         .countOfLikes(post.getCountOfLikes())
                         .commentResponseDtoList(commentResponseDtoList)
                         .author(post.getMember().getNickname())
+                        .url(post.getUrl())
+                        .FileName(post.getFileName())
                         .createdAt(post.getCreatedAt())
                         .modifiedAt(post.getModifiedAt())
                         .build()
@@ -163,7 +174,7 @@ public class PostService {
         if (post.validateMember(member)) {
             return ResponseDto.fail("BAD_REQUEST", "작성자만 삭제할 수 있습니다.");
         }
-
+        s3Client.deleteObject(bucket,post.getFileName());
         postRepository.delete(post);
         return ResponseDto.success("delete success");
     }
