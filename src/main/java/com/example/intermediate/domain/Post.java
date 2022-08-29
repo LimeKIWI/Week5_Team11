@@ -58,4 +58,13 @@ public class Post extends Timestamped {
     return !this.member.equals(member);
   }
 
+  public void addComment(Comment comment) {
+    comments.add(comment);
+    comment.setPost(this);
+  }
+
+  public void removeCommentList(Comment comment) {
+    comments.remove(comment);
+    comment.setPost(this);
+  }
 }
