@@ -12,13 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 
 @Builder
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -39,7 +38,11 @@ public class Post extends Timestamped {
   private List<Comment> comments;
   @Column(nullable = false)
   private String content;
+  @Column(nullable = false)
+  private String url;
 
+  @Column(nullable = false)
+  private String FileName;
   @Column(nullable = false)
   private int countOfLikes;
 
@@ -47,6 +50,11 @@ public class Post extends Timestamped {
     this.title = postRequestDto.getTitle();
     this.content = postRequestDto.getContent();
   }
+  public void add_url(String url,String Filename) {
+    this.url = url;
+    this.FileName=Filename;
+  }
+
   public  void like(){
     this.countOfLikes +=1;
   }
