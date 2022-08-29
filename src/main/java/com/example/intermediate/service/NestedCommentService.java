@@ -55,12 +55,12 @@ public class NestedCommentService {
         nestedCommentRepository.save(nestedComment);
         return ResponseDto.success(
                 CommentResponseDto.builder()
-                        .id(comment.getId())
-                        .author(comment.getMember().getNickname())
-                        .content(comment.getContent())
-                        .countOfLikes(comment.getCountOfLikes())
-                        .createdAt(comment.getCreatedAt())
-                        .modifiedAt(comment.getModifiedAt())
+                        .id(nestedComment.getId())
+                        .author(nestedComment.getMember().getNickname())
+                        .content(nestedComment.getContent())
+                        .countOfLikes(nestedComment.getCountOfLikes())
+                        .createdAt(nestedComment.getCreatedAt())
+                        .modifiedAt(nestedComment.getModifiedAt())
                         .build()
         );
     }
