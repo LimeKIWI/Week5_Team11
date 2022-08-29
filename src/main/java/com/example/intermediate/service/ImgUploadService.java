@@ -24,12 +24,9 @@ public class ImgUploadService {
 
     public ResponseDto<?> upload(InputStream inputStream, String originFileName, String fileSize){
         String s3FileName = UUID.randomUUID()+"-"+originFileName;
-
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(Long.parseLong(fileSize));
-
         s3Client.putObject(bucket,s3FileName,inputStream,objectMetadata);
-
         return  ResponseDto.success(s3Client.getUrl(bucket,dir+s3FileName).toString());
 
     }
