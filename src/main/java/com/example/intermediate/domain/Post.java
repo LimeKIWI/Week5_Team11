@@ -2,16 +2,8 @@ package com.example.intermediate.domain;
 
 import com.example.intermediate.controller.request.PostRequestDto;
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,6 +34,9 @@ public class Post extends Timestamped {
 
   @Column(nullable = false)
   private int countOfLikes;
+
+  @OneToOne
+  private ImageMapper image;
 
   public void update(PostRequestDto postRequestDto) {
     this.title = postRequestDto.getTitle();
