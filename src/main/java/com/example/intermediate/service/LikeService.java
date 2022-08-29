@@ -71,7 +71,7 @@ public class LikeService {
     }
 
     @Transactional
-    public ResponseDto<?> comment_like(LikeIdRequest likeIdRequest, HttpServletRequest request){
+    public ResponseDto<?> comment_like(ParentIdRequest parentRequest, HttpServletRequest request){
         Member member = validateMember(request);//현재 로그인중인 멤버
         Optional<Comment> temp = commentRepository.findById(parentRequest.getParentId());
         if (!temp.isPresent()) {
@@ -115,9 +115,9 @@ public class LikeService {
         return ResponseDto.success("좋아요 취소!");
     }
     @Transactional
-    public ResponseDto<?> nestedcomment_like(LikeIdRequest likeIdRequest, HttpServletRequest request){
+    public ResponseDto<?> nestedcomment_like(ParentIdRequest parentRequest, HttpServletRequest request){
         Member member = validateMember(request);//현재 로그인중인 멤버
-        Optional<NestedComment> temp = nestedCommentRepository.findById(likeIdRequest.getLikeId());
+        Optional<NestedComment> temp = nestedCommentRepository.findById(parentRequest.getParentId());
         if (!temp.isPresent()) {
             return ResponseDto.fail("fail-like", "해당 대댓글이 존재하지 않습니다.");
         }
@@ -146,13 +146,13 @@ public class LikeService {
             return ResponseDto.fail("fail-dislike", "해당 대댓글이 존재하지 않습니다.");
         }
         Like like = temp.get();
-        if(like.getMember().getId()!=member.getId()){
+        if(!Objects.equals(like.getMember().getId(), member.getId())){
             return ResponseDto.fail("fail-dislike", "해당 좋아요의 작성자가 아닙니다.");
         }
         //해당 로그인한 유저가 해당 댓글의 작성자가 아닐 경우에는 예외처리를 해야함
         NestedComment nestedComment= temp2.get();
-        if(like.getPid()!=nestedComment.getId()){
-            return ResponseDto.fail("fail-dislike", "해당 대댓글의 좋아요가 아닙니다.");
+        if(!Objects.equals(like.getPid(), nestedComment.getId())){
+            return ResponseDto.fail("fail-dislike", "해당 댓글의 좋아요가 아닙니다.");
         }
         nestedComment.dislike();
         likeRepository.delete(like);
