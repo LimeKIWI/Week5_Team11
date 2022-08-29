@@ -58,6 +58,7 @@ public class CommentService {
         .content(requestDto.getContent())
         .build();
     commentRepository.save(comment);
+    post.addComment(comment);
     return ResponseDto.success(
         CommentResponseDto.builder()
             .id(comment.getId())
@@ -176,10 +177,16 @@ public class CommentService {
       return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
     }
 
+    Post post = postService.isPresentPost(comment.getPost().getId());
+    if (null == post) {
+      return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
+    }
+
     if (comment.validateMember(member)) {
       return ResponseDto.fail("BAD_REQUEST", "작성자만 수정할 수 있습니다.");
     }
 
+    post.removeCommentList(comment);
     commentRepository.delete(comment);
     return ResponseDto.success("success");
   }

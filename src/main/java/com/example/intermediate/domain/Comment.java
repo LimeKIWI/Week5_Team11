@@ -4,14 +4,14 @@ import com.example.intermediate.controller.request.CommentRequestDto;
 
 import javax.persistence.*;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.List;
 
 
 @Builder
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -29,12 +29,14 @@ public class Comment extends Timestamped {
   @ManyToOne(fetch = FetchType.LAZY)
   private Post post;
 
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<NestedComment> nestedComments;
+
   @Column(nullable = false)
   private String content;
 
   @Column(nullable = false)
   private int countOfLikes;
-
 
   public void update(CommentRequestDto commentRequestDto) {
     this.content = commentRequestDto.getContent();
@@ -49,5 +51,15 @@ public class Comment extends Timestamped {
 
   public boolean validateMember(Member member) {
     return !this.member.equals(member);
+  }
+
+  public void addNestComment(NestedComment nestedComment) {
+    nestedComments.add(nestedComment);
+    nestedComment.setComment(this);
+  }
+
+  public void removeNestCommentList(NestedComment nestedComment) {
+    nestedComments.remove(nestedComment);
+    nestedComment.setComment(this);
   }
 }

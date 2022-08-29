@@ -53,14 +53,15 @@ public class NestedCommentService {
                 .countOfLikes(0)
                 .build();
         nestedCommentRepository.save(nestedComment);
+        comment.addNestComment(nestedComment);
         return ResponseDto.success(
                 CommentResponseDto.builder()
-                        .id(comment.getId())
-                        .author(comment.getMember().getNickname())
-                        .content(comment.getContent())
-                        .countOfLikes(comment.getCountOfLikes())
-                        .createdAt(comment.getCreatedAt())
-                        .modifiedAt(comment.getModifiedAt())
+                        .id(nestedComment.getId())
+                        .author(nestedComment.getMember().getNickname())
+                        .content(nestedComment.getContent())
+                        .countOfLikes(nestedComment.getCountOfLikes())
+                        .createdAt(nestedComment.getCreatedAt())
+                        .modifiedAt(nestedComment.getModifiedAt())
                         .build()
         );
     }
@@ -155,10 +156,15 @@ public class NestedCommentService {
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 대댓글 id 입니다.");
         }
 
+        Comment comment = commentService.isPresentComment(nestedComment.getComment().getId());
+        if (null == comment) {
+            return ResponseDto.fail("NOT_FOUND", "존재하지 않는 댓글 id 입니다.");
+        }
+
         if (nestedComment.validateMember(member)) {
             return ResponseDto.fail("BAD_REQUEST", "작성자만 수정할 수 있습니다.");
         }
-
+        comment.removeNestCommentList(nestedComment);
         nestedCommentRepository.delete(nestedComment);
         return ResponseDto.success("success");
     }
