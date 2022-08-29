@@ -31,7 +31,12 @@ public class ImgUploadService {
         if(null==post){
             return ResponseDto.fail("NOT_FOUND", "존재하지 않는 게시글 id 입니다.");
         }
-        String s3FileName = UUID.randomUUID()+"-"+multipartFile.getOriginalFilename();//filename  초기허ㅏ
+        if (!post.getFileName().equals("x")) {
+            //이미 채워진 상태
+            s3Client.deleteObject(bucket,post.getFileName());
+            //지우고 다시 생성!
+        }
+        String s3FileName = UUID.randomUUID()+"-"+multipartFile.getOriginalFilename();//filename  초기화
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(multipartFile.getSize());
         objectMetadata.setContentType(multipartFile.getContentType());
