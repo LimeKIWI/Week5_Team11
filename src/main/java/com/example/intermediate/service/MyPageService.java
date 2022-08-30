@@ -56,6 +56,7 @@ public class MyPageService {
                             .title(post.getTitle())
                             .author(post.getMember().getNickname())
                             .content(post.getContent())
+                            .image(post.getImage().getUrl())
                             .countOfLikes(post.getCountOfLikes())
                             .createdAt(post.getCreatedAt())
                             .modifiedAt(post.getModifiedAt())
@@ -133,6 +134,7 @@ public class MyPageService {
                                     .title(post.getTitle())
                                     .author(post.getMember().getNickname())
                                     .content(post.getContent())
+                                    .image(post.getImage().getUrl())
                                     .countOfLikes(post.getCountOfLikes())
                                     .createdAt(post.getCreatedAt())
                                     .modifiedAt(post.getModifiedAt())
@@ -167,7 +169,6 @@ public class MyPageService {
                                     .id(comment.getId())
                                     .author(comment.getMember().getNickname())
                                     .content(comment.getContent())
-
                                     .countOfLikes(comment.getCountOfLikes())
                                     .createdAt(comment.getCreatedAt())
                                     .modifiedAt(comment.getModifiedAt())
