@@ -44,7 +44,7 @@ jobs:
 
       # script files 복사
       - name: Copy script
-        run: cp ./script/*.sh ./deploy
+        run: cp ./scripts/*.sh ./deploy
 
       - name: Make zip file
         run: zip -r ./5w11t.zip ./deploy
