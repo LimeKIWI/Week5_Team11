@@ -15,7 +15,7 @@ import java.io.IOException;
 @RestController
 public class ImgUploadController {
     private final ImgUploadService imguploadService;
-
+ ///
     @PostMapping("/upload/post/{id}")
     public ResponseDto<?> uploadFile(@RequestParam("images") MultipartFile multipartFile, @PathVariable Long id) throws IllegalAccessException {
         return imguploadService.upload(multipartFile,id);
