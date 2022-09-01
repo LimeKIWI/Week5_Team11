@@ -7,7 +7,7 @@ on:
     
 env:
   S3_BUCKET_NAME: 5w11t-deploy
-
+  CODE_DEPLOY_APPLICATION_NAME: 5w11t
 
 jobs:
   build:
@@ -66,11 +66,11 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          aws deploy create-deployment 
-          --application-name 5w11t
-          --deployment-group-name 5w11t-gruop 
-          --file-exists-behavior OVERWRITE 
-          --s3-location bucket=5w11t-deploy,bundleType=zip,key=5w11t.zip 
+          aws deploy create-deployment \
+          --application-name ${{ env.CODE_DEPLOY_APPLICATION_NAME }} \
+          --deployment-config-name CodeDeployDefault.AllAtOnce \
+          --file-exists-behavior OVERWRITE \
+          --s3-location bucket=5w11t-deploy,bundleType=zip,key=5w11t.zip \
           --region ap-northeast-2
         
         
